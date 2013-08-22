@@ -1,0 +1,22 @@
+<pm:html>
+	<pm:head>
+		<title>@{typef_title}@ - Admin - Install</title>
+	</pm:head>
+	<pm:body>
+		<h2><a href="~/admin">Admin</a> &gt; <a href="~a/">Install</a> &gt; @{packagename}@</h2>
+		<ul class="navlist">
+			<li><a href="~a/">Install Admin</a></li>
+			<li><a href="~a/browse">Browse Packages</a></li>
+			<li><a href="~a/updates">Check for Updates</a></li>
+		</ul>
+		<section>
+			<h2>Installation Complete</h2>
+			<pm:if expr="count(log)">
+				<ul><li pm:loop="log">@{message}@</li></ul>
+			</pm:if>
+			<pm:else>
+				<p>Current installation is up to date. No changes were made.</p>
+			</pm:else>
+		</section>
+	</pm:body>
+</pm:html>

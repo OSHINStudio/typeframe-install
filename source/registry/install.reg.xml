@@ -1,0 +1,27 @@
+<registry>
+	<application name="Install Admin" title="Install" icon="ico-install.png" base="/admin/install" map="hard" category="System">
+		<class name="Installer" script="installer.class.php" />
+		<trigger path="/admin" script="/admin/install/alerts.php" />
+		<trigger path="/admin/install*" script="/admin/ftp/require.php" />
+		<class name="Installer" script="installer.class.php" />
+		<style path="/admin/install" stylesheet="/admin/install/style.css" />
+		<style path="/admin/install/*" stylesheet="/admin/install/style.css" />
+		<config name="Install">
+			<item name="TYPEF_PROVIDER" caption="Provider" type="text" default="http://typeframe.com/packages" />
+			<item name="TYPEF_LICENSE_KEY" caption="License Key" type="text" default="" />
+			<item name="INSTALL_REQUIRED_AUTO" caption="Automatically install required dependencies" type="boolean" default="1" />
+			<item name="INSTALL_ALERTS" caption="Alert administrators of available updates" type="boolean" default="1" />
+			<item name="INSTALL_DOWNLOADER" caption="Downloader to use for installing packages" default="CURL" type="select">
+				<option value="CURL" caption="Standard Downloader (curl)" />
+				<option value="WGET" caption="Fallback Downloader (wget)" />
+			</item>
+		</config>
+	</application>
+	<!-- TODO: Backups are temporarily disabled and are a candidate for deprecation. -->
+	<!--<application name="Backups Admin" title="Backups" icon="backups.gif" base="/admin/backups" map="hard" category="Advanced">
+		<trigger path="/admin/backups*" script="/admin/ftp/require.php" when="before" />
+	</application>-->
+    <application name="Uninstall Admin" title="Uninstall" icon="uninstall.gif" base="/admin/uninstall" map="hard" category="System">
+		<trigger path="/admin/uninstall*" script="/admin/ftp/require.php" />
+	</application>
+</registry>

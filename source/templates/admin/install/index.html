@@ -1,0 +1,23 @@
+<pm:html>
+	<pm:head>
+		<title>@{typef_title}@ - Admin - Install</title>
+	</pm:head>
+	<pm:body>
+		<h2>Install Packages</h2>
+		<ul class="navlist">
+			<li><a href="~a/browse">Browse Packages</a></li>
+			<li><a href="~a/updates">Check for Updates</a></li>
+		</ul>
+		<form class="installform" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="install" />
+			<label>Package to Upload: <input type="file" name="package" /></label>
+			<input type="submit" name="btn" value="Upload" />
+		</form>
+		<p><strong>OR</strong></p>
+		<form class="installform" method="post">
+			<input type="hidden" name="cmd" value="install" />
+			<label>URL to Package: <input type="text" name="url" /></label>
+			<input type="submit" name="btn" value="Install" />
+		</form>
+	</pm:body>
+</pm:html>

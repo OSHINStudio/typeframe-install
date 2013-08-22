@@ -1,0 +1,61 @@
+<pm:html>
+	<pm:head>
+		<title>Admin - Browse Packages</title>
+		<pm:scriptonce src="~fs/jquery/jquery.js"></pm:scriptonce>
+		<style>
+			.ajax
+			{
+				margin-top: 20px;
+				text-align: center;
+				font-style: italic;
+			}
+		</style>
+		<script>
+			$(function()
+			{
+				var $ajax = $('<div/>');
+				$ajax.addClass('ajax');
+				$ajax.css('display', 'block');
+				$ajax.html('<img src="@{typef_web_dir}@/files/static/images/ajax-loader.gif" alt="Spin" /> Installing package, please wait...');
+				$('#packages form').submit(function()
+				{
+					var $body = $('body');
+					$body.children().hide();
+					$body.append($ajax);
+				});
+			});
+		</script>
+	</pm:head>
+	<pm:body>
+		<h2 pm:if="page_header">@{page_header}@</h2>
+		<pm:if expr="count(packages)">
+			<h2>Browse Packages</h2>
+			<div id="packages">
+				<section>
+					<div pm:loop="packages" class="package">
+						<h2>@{packagetitle}@</h2>
+						<div>@{packagedescr}@</div>
+						<div>Last version: @{lastversion}@ <small>(build @{lastrevision}@ on @{default_date_time(lastdate)}@)</small><br/>
+							URL: @{packageurl}@</div>
+						<pm:if expr="count(revisions)">
+							Version History:<br/>
+							<pm:loop name="revisions">
+								<pm:if expr="revision != lastrevision">
+									@{revision}@<br/>
+								</pm:if>
+							</pm:loop>
+						</pm:if>
+						<form action="~a/" method="post">
+							<input type="hidden" name="cmd" value="install" />
+							<input type="hidden" name="url" value="@{packageurl}@" />
+							<input type="submit" name="btn" value="Install @{packagetitle}@ @{lastversion}@" />
+						</form>
+					</div>
+				</section>
+			</div>
+		</pm:if>
+		<pm:else>
+			<p>No package information is available.</p>
+		</pm:else>
+	</pm:body>
+</pm:html>

@@ -1,0 +1,40 @@
+<pm:html xmlns:pm="http://typeframe.com/pagemill">
+    <pm:head>
+        <title>Admin - Uninstall</title>
+    </pm:head>
+    <pm:body>
+        <h2>
+            Uninstall
+        </h2>
+        <pm:if expr="count(packages)">
+			<table>
+				<tr>
+					<th>
+						Package
+					</th>
+					<th>
+						&nbsp;
+					</th>
+				</tr>
+				<pm:loop name="packages">
+					<tr>
+						<td>
+							@{title}@
+						</td>
+						<td>
+							<form action="@{typef_web_dir}@/admin/uninstall/do" method="post">
+								<input type="hidden" name="package" value="@{name}@" />
+								<input type="submit" name="btn" value="Uninstall" />
+							</form>
+						</td>
+					</tr>
+				</pm:loop>
+			</table>
+        </pm:if>
+        <pm:else>
+            <p>
+                There are no packages that can be uninstalled right now.
+            </p>
+        </pm:else>
+    </pm:body>
+</pm:html>

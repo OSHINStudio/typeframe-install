@@ -1,0 +1,81 @@
+<pm:html>
+	<pm:head>
+		<title>Updates</title>
+		<pm:scriptonce src="~fs/jquery/jquery.js"></pm:scriptonce>
+		<style>
+			.ajax
+			{
+				margin-top: 20px;
+				text-align: center;
+				font-style: italic;
+			}
+		</style>
+		<script>
+			$(function()
+			{
+				var $ajax = $('<div/>');
+				$ajax.addClass('ajax');
+				$ajax.css('display', 'block');
+				$ajax.html('<img src="@{typef_web_dir}@/files/static/images/ajax-loader.gif" alt="Spin" /> Installing package, please wait...');
+				$('#packages form').submit(function()
+				{
+					var $body = $('body');
+					$body.children().hide();
+					$body.append($ajax);
+				});
+			});
+		</script>
+	</pm:head>
+	<pm:body>
+		<h2>Check for Updates</h2>
+		<pm:if expr="count(packages)">
+			<p>This table lists your installed packages and informs you when updates are available.</p>
+			<table id="packages">
+				<tr><th>Package</th><th>Installed</th><th>Current</th><th>Customized</th><th>&nbsp;</th></tr>
+				<tr pm:loop="packages">
+					<td>@{title}@</td>
+					<td>@{version}@ (build @{revision}@)</td>
+					<pm:if expr="available">
+						<td>
+							<pm:if expr="revision == newest">
+								@{newestversion}@ (build @{newest}@)
+							</pm:if>
+							<pm:else>
+								<span style="color: red;">@{newestversion}@ (build @{newest}@)</span>
+							</pm:else>
+						</td>
+						<td align="center">
+							<pm:if expr="customized">
+								<span style="color: red;">Yes</span>
+							</pm:if>
+							<pm:else>
+								No
+							</pm:else>
+						</td>
+						<td align="center">
+							<pm:if expr="(uptodate) AND (!customized)">
+								<span style="color: green;">Up to date</span>
+							</pm:if>
+							<pm:else>
+								<form action="~a/@{customized ? 'confirm-update' : ''}@" method="post" style="margin: 0; padding: 0; text-align: center;">
+									<input type="hidden" name="cmd" value="install" />
+									<input type="hidden" name="url" value="@{packageurl}@" />
+									<input pm:if="customized" type="hidden" name="packagexml" value="@{packagexml}@" />
+									<input type="submit" name="btn" value="Review/Update" />
+								</form>
+							</pm:else>
+						</td>
+					</pm:if>
+					<pm:else>
+						<td colspan="2">Information not available</td>
+					</pm:else>
+				</tr>
+			</table>
+		</pm:if>
+		<pm:else>
+			<p>Information about installed packages is not available.</p>
+		</pm:else>
+		<p><small>A package is considered <strong>customized</strong> if one of its files changed after its last update;
+			for example, if a designer modified an application template.</small></p>
+	</pm:body>
+</pm:html>

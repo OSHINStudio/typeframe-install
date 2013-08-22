@@ -1,0 +1,56 @@
+<pm:html>
+	<pm:head>
+		<title>Updates</title>
+		<pm:scriptonce src="~fs/jquery/jquery.js"></pm:scriptonce>
+		<style>
+			.ajax
+			{
+				margin-top: 20px;
+				text-align: center;
+				font-style: italic;
+			}
+		</style>
+		<script>
+			$(function()
+			{
+				var $overwrite, $ajax;
+				$overwrite = $('input.overwrite');
+				$('select-all').click(function()
+				{
+					$overwrite.attr('checked', true);
+					return false;
+				});
+				$('unselect-all').click(function()
+				{
+					$overwrite.attr('checked', false);
+					return false;
+				});
+				$ajax = $('<div/>');
+				$ajax.addClass('ajax');
+				$ajax.css('display', 'block');
+				$ajax.html('<img src="@{typef_web_dir}@/files/static/images/ajax-loader.gif" alt="Spin" /> Installing package, please wait...');
+				$('#confirm-update-form').submit(function()
+				{
+					var $body = $('body');
+					$body.children().hide();
+					$body.append($ajax);
+				});
+			});
+		</script>
+	</pm:head>
+	<pm:body>
+		<h2>Confirm Update</h2>
+		<p>The following files have been customized since the last package update.
+			Please select which files you want to replace with the version in the most recent package.
+			<strong>If you select a file, the version that is currently on the site will overwritten.</strong></p>
+		<form id="confirm-update-form" action="~a/" method="post">
+			<input type="hidden" name="cmd" value="install" />
+			<input type="hidden" name="url" value="@{url}@" />
+			<p><a href="#" id="select-all">Select All</a> | <a href="#" id="unselect-all">Unselect All</a></p>
+			<div pm:loop="customized">
+				<label><input type="checkbox" class="overwrite" name="overwrite[]" value="@{file}@" /> @{file}@</label>
+			</div>
+			<input type="submit" name="btn" value="Continue" />
+		</form>
+	</pm:body>
+</pm:html>

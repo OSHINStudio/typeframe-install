@@ -1,0 +1,51 @@
+<pm:html>
+	<pm:head>
+		<title>Admin - Backups</title>
+	</pm:head>
+	<pm:body>
+		<h2>
+			Backups
+		</h2>
+		<pm:if expr="count(backups)">
+			<p>
+				The following backups were created for files that were overwritten
+				during package installations.  Click "Restore All" to restore the
+				entire backup or "View Files" to select particular files to restore.
+			</p>
+			<table>
+				<tr>
+					<th>
+						Date Created
+					</th>
+					<th>
+						Package Installed
+					</th>
+					<th>
+						&nbsp;
+					</th>
+				</tr>
+				<pm:loop name="backups">
+					<tr>
+						<td>
+							<pm:eval expr="default_date_time(datecreated)" />
+						</td>
+						<td>
+							@{packagename}@
+						</td>
+						<td>
+							<a href="@{typef_web_dir}@/admin/backups/download?filename=@{filename}@"><img src="@{typef_web_dir}@/common/icons/icon-download.png" alt="Download" title="Download" /></a>
+							<a href="@{typef_app_base}@view?backupid=@{backupid}@"><img src="@{typef_web_dir}@/common/icons/search-20x20.png" alt="View Files" title="View Files" /></a>
+							<pm:postlink href="@{typef_app_base}@/restore?cmd=restore-all&amp;backupid=@{backupid}@" confirm="This will restore ALL files backed up from the @{packagename}@ installation on @{datecreated}@.  Click OK to confirm."><img src="@{typef_web_dir}@/common/icons/icon-reverse.png" alt="Restore All" title="Restore All" /></pm:postlink>
+							<pm:postlink href="@{typef_app_base}@?cmd=backup-delete&amp;backupid=@{backupid}@" confirm="Are you sure you want to delete the backup from @{datecreated}@?  Click OK to confirm."><img src="@{typef_web_dir}@/common/icons/icon-delete.png" title="Delete" /></pm:postlink>
+						</td>
+					</tr>
+				</pm:loop>
+			</table>
+		</pm:if>
+		<pm:if expr="!count(backups)">
+			<p>
+				There are no backups in the database.
+			</p>
+		</pm:if>
+	</pm:body>
+</pm:html>

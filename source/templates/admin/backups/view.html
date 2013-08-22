@@ -1,0 +1,56 @@
+<pm:html>
+	<pm:head>
+		<title>Admin - Backups</title>
+	</pm:head>
+	<pm:body>
+		<h2>
+			View Backup Files
+		</h2>
+		<pm:loop name="backup">
+			<p>
+				Backup from @{datecreated}@
+			</p>
+		</pm:loop>
+		<form id="restoreform" action="@{typef_web_dir}@/admin/backups/restore" method="post">
+			<pm:loop name="backup">
+				<input type="hidden" name="cmd" value="restore-selected" />
+				<input type="hidden" name="backupid" value="@{backupid}@" />
+			</pm:loop>
+			<table>
+				<tr>
+					<th>
+						&nbsp;
+					</th>
+					<th>
+						File
+					</th>
+				</tr>
+				<pm:loop name="files">
+					<tr>
+						<td>
+							<input type="checkbox" name="files[]" value="@{filename}@" />
+						</td>
+						<td>
+							<pm:eval expr="substr(filename, strlen(typef_dir))" />
+						</td>
+					</tr>
+				</pm:loop>
+			</table>
+			<p>
+				<small>
+					<a href="#" onclick="toggleSelection(true); return false;">Select All</a> |
+					<a href="#" onclick="toggleSelection(false); return false;">Unselect All</a>
+				</small>
+			</p>
+			<input type="submit" name="btn" value="Restore Selected Files" />
+		</form>
+		<pm:scriptonce type="text/javascript" src="@{typef_web_dir}@/common/js/prototype.js"></pm:scriptonce>
+		<script type="text/javascript">
+			function toggleSelection(boo) {
+				$$('#restoreform input[type="checkbox"]').each(function(el) {
+					el.checked = boo;
+				});
+			}
+		</script>
+	</pm:body>
+</pm:html>
